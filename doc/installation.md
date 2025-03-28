@@ -176,10 +176,8 @@ PHP 8.3 ou supérieur est requis pour la version PHP du script.
    - Ouvrez `php.ini` dans un éditeur de texte
    - Décommentez les extensions suivantes en retirant le `;` au début des lignes:
      ```
-     extension=curl
+     extension=json
      extension=fileinfo
-     extension=mbstring
-     extension=openssl
      ```
 
 4. **Vérifier l'installation**
@@ -209,8 +207,8 @@ PHP 8.3 ou supérieur est requis pour la version PHP du script.
 sudo add-apt-repository ppa:ondrej/php
 sudo apt update
 
-# Installer PHP 8.3 et les extensions utiles
-sudo apt install php8.3 php8.3-cli php8.3-common php8.3-curl php8.3-mbstring php8.3-xml
+# Installer PHP 8.3 et les extensions nécessaires
+sudo apt install php8.3 php8.3-cli php8.3-common php8.3-json
 
 # Vérifier l'installation
 php --version

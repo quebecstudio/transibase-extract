@@ -184,13 +184,15 @@ Cette structure modulaire permet d'intégrer facilement la fonctionnalité dans 
 
 ## Dépannage
 
+## Dépannage
+
 ### Problèmes courants
 
 - **"PHP version..."**: Le script nécessite PHP 8.3+. Vérifiez votre version avec `php --version`.
 
-- **"fputcsv(): the $escape parameter must be provided"**: Cette alerte de dépréciation n'empêche pas le fonctionnement, mais indique que vous utilisez une version de PHP où le paramètre d'échappement devient obligatoire.
-
 - **Caractères accentués mal affichés**: Assurez-vous que vos fichiers sont encodés en UTF-8 et que PHP est configuré pour utiliser UTF-8 par défaut.
+
+- **Erreur JSON parse**: Si vous rencontrez des erreurs lors du traitement JSON, vérifiez que votre fichier JSON est correctement formaté. Le script tente automatiquement de réparer certains problèmes courants, mais il ne peut pas gérer tous les cas.
 
 ### Solutions spécifiques
 

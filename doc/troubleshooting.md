@@ -5,12 +5,8 @@ Ce document présente les problèmes courants que vous pourriez rencontrer lors 
 ## Table des matières
 
 - [Problèmes généraux](#problèmes-généraux)
-- [Node.js (JavaScript et TypeScript)](#nodejs-javascript-et-typescript)
-- [Deno](#deno)
-- [Bun](#bun)
-- [PHP](#php)
-- [Python](#python)
-- [Problèmes de format](#problèmes-de-format)
+- [Problèmes d'encodage](#problèmes-dencoding)
+- [Problèmes spécifiques aux environnements](#problèmes-spécifiques-aux-environnements)
 
 ## Problèmes généraux
 
@@ -51,7 +47,9 @@ Ce document présente les problèmes courants que vous pourriez rencontrer lors 
 - Fermez le fichier de sortie s'il est ouvert dans une autre application (comme Excel)
 - Utilisez un chemin de destination où vous avez les permissions appropriées
 
-### Problèmes d'encodage des caractères spéciaux
+## Problèmes d'encodage
+
+### Caractères spéciaux mal affichés
 
 **Problème**: Les caractères accentués ou spéciaux apparaissent incorrectement dans le fichier CSV.
 
@@ -59,3 +57,51 @@ Ce document présente les problèmes courants que vous pourriez rencontrer lors 
 - Assurez-vous que votre fichier JSON d'entrée est encodé en UTF-8
 - Ouvrez le fichier CSV avec un logiciel qui prend en charge l'UTF-8
 - Si vous utilisez Excel, utilisez l'option d'importation de données et spécifiez l'encodage UTF-8
+
+## Problèmes spécifiques aux environnements
+
+### Node.js (JavaScript et TypeScript)
+
+**Problème**: Erreur "Cannot find module 'ts-node'"
+
+**Solution**:
+- Installez ts-node globalement : `npm install -g ts-node`
+- Ou localement dans votre projet : `npm install ts-node`
+
+### Deno
+
+**Problème**: Erreur de permissions pour la lecture/écriture de fichiers
+
+**Solution**:
+- Ajoutez les flags de permission appropriés : `deno run --allow-read --allow-write transibase_dgeq_convert_deno.ts ...`
+
+### Bun
+
+**Problème**: La commande "bun" n'est pas reconnue
+
+**Solution**:
+- Vérifiez que Bun est bien installé : `curl -fsSL https://bun.sh/install | bash`
+- Assurez-vous que le chemin de Bun est dans votre PATH
+
+### PHP
+
+**Problème**: Erreur "PHP version must be >= 8.3.0"
+
+**Solution**:
+- Mettez à jour PHP vers la version 8.3 ou supérieure
+- Sur Linux : `sudo add-apt-repository ppa:ondrej/php && sudo apt update && sudo apt install php8.3`
+- Sur macOS : `brew update && brew install php`
+
+**Problème**: Erreur lors de l'inclusion de `transibase_converter.php`
+
+**Solution**:
+- Vérifiez que ce fichier se trouve bien dans le même répertoire que votre script
+- Si ce n'est pas le cas, ajustez le chemin dans le require_once
+
+### Python
+
+**Problème**: Erreur de syntaxe ou fonctionnalités non supportées
+
+**Solution**:
+- Vérifiez que vous utilisez Python 3.6 ou supérieur : `python --version` ou `python3 --version`
+- Si nécessaire, utilisez explicitement Python 3 : `python3 transibase_dgeq_convert.py ...`
