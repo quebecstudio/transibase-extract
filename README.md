@@ -63,8 +63,8 @@ Ce script est conçu pour générer le document à fournir au Directeur généra
 # Utilisation basique
 node extract-json-to-csv.js input.json output.csv
 
-# Avec filtrage par année (seulement les transactions de 2023)
-node extract-json-to-csv.js input.json output.csv 2023
+# Avec filtrage par année (seulement les transactions de 2024)
+node extract-json-to-csv.js input.json output.csv 2024
 ```
 
 Si le fichier de sortie existe déjà, le script vous demandera si vous souhaitez l'écraser.
@@ -82,8 +82,8 @@ done
 
 # Pour traiter plusieurs fichiers avec un filtre d'année
 for file in *.json; do
-  output="${file%.json}_2023.csv"
-  node extract-json-to-csv.js "$file" "$output" 2023
+  output="${file%.json}_2024.csv"
+  node extract-json-to-csv.js "$file" "$output" 2024
 done
 ```
 
