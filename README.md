@@ -3,6 +3,12 @@
 Ce script fait partie du logiciel Transibase 1.0 développé par Québec Studio.
 Il permet d'extraire des données spécifiques à partir de fichiers JSON de commandes Craft Commerce et de les exporter dans un format CSV.
 
+## Soutien
+
+Québec Studio soutient l'Ukraine et son peuple dans sa quête de paix, de liberté et de souveraineté. 🇺🇦
+
+Si vous ne soutenez pas cette cause, nous vous prions de ne pas utiliser nos logiciels, car ils s'adressent aux personnes qui souhaitent être du bon côté de l'histoire.
+
 ## Objectif
 
 Ce script est conçu pour générer le document à fournir au Directeur général des élections du Québec (DGEQ) pour les partis municipaux. Le fichier CSV généré contient les données minimales requises par le DGEQ pour la conformité des rapports financiers des partis politiques municipaux.
