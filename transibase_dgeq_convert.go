@@ -2,35 +2,26 @@ package main
 
 /**
  * Transibase 1.0 - Extracteur de données JSON vers CSV (Version Go)
- * 
+ *
  * Ce script permet d'extraire des données spécifiques depuis les commandes Craft Commerce
  * exportées en JSON et de les convertir en format CSV.
- * 
- * Ce script est disponible en plusieurs versions:
- * - JavaScript (Node.js): transibase_dgeq_convert.js
- * - TypeScript (Node.js): transibase_dgeq_convert_node.ts
- * - TypeScript (Deno): transibase_dgeq_convert_deno.ts
- * - TypeScript (Bun): transibase_dgeq_convert_bun.ts
- * - Python 3: transibase_dgeq_convert.py
- * - PHP 8.3+: transibase_dgeq_convert.php
- * - Go: transibase_dgeq_convert.go
- * 
+ *
  * @copyright 2025 Québec Studio
  * @license GNU General Public License v3.0 (GPL-3.0)
  * @author Québec Studio
  * @version 1.0.0
- * 
+ *
  * Ce script fait partie du logiciel Transibase 1.0 développé par Québec Studio.
- * 
+ *
  * Ce programme est un logiciel libre ; vous pouvez le redistribuer et/ou le modifier
  * selon les termes de la Licence Publique Générale GNU publiée par la Free Software
  * Foundation ; soit la version 3 de la licence, soit (à votre gré) toute version
  * ultérieure.
- * 
+ *
  * Ce programme est distribué dans l'espoir qu'il sera utile, mais SANS AUCUNE GARANTIE ;
  * sans même la garantie tacite de QUALITÉ MARCHANDE ou d'ADÉQUATION à UN BUT PARTICULIER.
  * Consultez la Licence Publique Générale GNU pour plus de détails.
- * 
+ *
  * Vous devriez avoir reçu une copie de la Licence Publique Générale GNU avec ce programme ;
  * si ce n'est pas le cas, consultez <https://www.gnu.org/licenses/licenses.fr.html>.
  */
