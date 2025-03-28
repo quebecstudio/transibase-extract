@@ -14,7 +14,7 @@ Ce document fournit des informations spécifiques sur l'utilisation de la versio
 
 ## Présentation de la version PHP
 
-La version PHP du script Transibase (`transibase_dgeq_convert.php`) est conçue pour tirer parti des fonctionnalités modernes de PHP 8.3+:
+La version PHP du script Transibase est conçue pour tirer parti des fonctionnalités modernes de PHP 8.3+:
 - Programmation orientée objet
 - Typage strict
 - Gestion des exceptions
@@ -35,7 +35,9 @@ Elle est particulièrement utile si:
 1. **Installer PHP** si ce n'est pas déjà fait:
    - [Instructions d'installation PHP](/doc/installation.md#php-83)
 
-2. **Télécharger le script** dans votre répertoire de travail
+2. **Télécharger les fichiers** dans votre répertoire de travail:
+   - `transibase_converter.php`: Contient les classes et la logique de conversion
+   - `transibase_dgeq_convert.php`: Script en ligne de commande utilisant ces classes
 
 3. **Vérifier l'installation et la compatibilité**:
    ```bash
@@ -84,9 +86,17 @@ done
 
 ## Utilisation sur un serveur web
 
-Le script peut également être adapté pour fonctionner dans un environnement web:
+Le projet est structuré de manière à faciliter l'intégration dans un environnement web:
 
-1. **Créer un formulaire HTML**:
+1. **Structure des fichiers**:
+   - `transibase_converter.php`: Contient les classes et la logique de conversion
+   - `transibase_dgeq_convert.php`: Script en ligne de commande qui utilise ces classes
+
+2. **Intégration dans une application web**:
+   - Incluez simplement le fichier `transibase_converter.php` dans votre application
+   - Utilisez la classe `TransibaseConverter` pour traiter les données
+
+3. **Exemple d'interface web**:
 
 ```html
 <!DOCTYPE html>
@@ -105,7 +115,7 @@ Le script peut également être adapté pour fonctionner dans un environnement w
 </html>
 ```
 
-2. **Créer un script de traitement** (`process.php`):
+4. **Script de traitement** (`process.php`):
 
 ```php
 <?php
@@ -125,42 +135,34 @@ if ($filterYear && !preg_match('/^\d{4}$/', $filterYear)) {
     die("L'année doit être au format YYYY (ex: 2023).");
 }
 
-// Lire le fichier JSON téléchargé
-$jsonContent = file_get_contents($_FILES['jsonFile']['tmp_name']);
-
-// Traiter les données JSON
 try {
-    $jsonData = json_decode($jsonContent, true, 512, JSON_THROW_ON_ERROR);
-} catch (JsonException $e) {
-    // Tenter de réparer le JSON
-    try {
-        $jsonData = json_decode('[' . $jsonContent . ']', true, 512, JSON_THROW_ON_ERROR);
-    } catch (JsonException $e2) {
-        die("Le fichier JSON est mal formé et ne peut pas être réparé automatiquement.");
+    // Lire le fichier JSON téléchargé
+    $jsonContent = file_get_contents($_FILES['jsonFile']['tmp_name']);
+    
+    // Créer l'instance du convertisseur
+    $converter = new TransibaseConverter($filterYear);
+    
+    // Traiter les données JSON
+    $extractedData = $converter->processJsonString($jsonContent);
+    
+    if (empty($extractedData)) {
+        die("Aucune transaction trouvée" . ($filterYear ? " pour l'année $filterYear." : "."));
     }
+    
+    // Générer le CSV
+    $csvContent = $converter->generateCSV($extractedData);
+    
+    // Envoyer le fichier CSV au navigateur
+    header('Content-Type: text/csv; charset=utf-8');
+    header('Content-Disposition: attachment; filename="export_dgeq.csv"');
+    echo $csvContent;
+    
+} catch (Exception $e) {
+    die("Erreur lors du traitement: " . $e->getMessage());
 }
-
-// Extraire et convertir les données
-$converter = new TransibaseConverter($filterYear);
-$extractedData = $converter->extractData($jsonData);
-
-if (empty($extractedData)) {
-    die("Aucune transaction trouvée" . ($filterYear ? " pour l'année $filterYear." : "."));
-}
-
-// Générer le CSV
-$csvContent = $converter->generateCSV($extractedData);
-
-// Envoyer le fichier CSV au navigateur
-header('Content-Type: text/csv; charset=utf-8');
-header('Content-Disposition: attachment; filename="export_dgeq.csv"');
-echo $csvContent;
-exit;
 ```
 
-3. **Extraire la classe de conversion** dans un fichier séparé (`transibase_converter.php`):
-
-Cette approche permet d'intégrer facilement la fonctionnalité dans une application web PHP existante.
+Cette structure modulaire permet d'intégrer facilement la fonctionnalité dans une application web PHP existante.
 
 ## Fonctionnalités spécifiques
 
@@ -178,6 +180,7 @@ Cette approche permet d'intégrer facilement la fonctionnalité dans une applica
 - Gestion des exceptions pour une robustesse accrue
 - Formatage CSV respectant strictement le standard RFC 4180
 - Support multilingue (caractères accentués)
+- Méthodes spécifiques pour l'utilisation web (`processJsonString`, `generateCSV`)
 
 ## Dépannage
 
@@ -212,6 +215,12 @@ Cette approche permet d'intégrer facilement la fonctionnalité dans une applica
 - **Problèmes de mémoire pour gros fichiers**:
   ```bash
   php -d memory_limit=512M transibase_dgeq_convert.php ...
+  ```
+
+- **Erreur lors de l'inclusion de `transibase_converter.php`**:
+  Vérifiez que ce fichier se trouve bien dans le même répertoire que votre script. Si ce n'est pas le cas, ajustez le chemin:
+  ```php
+  require_once '/chemin/complet/vers/transibase_converter.php';
   ```
 
 Pour plus d'informations sur le dépannage, consultez le [guide de dépannage général](/doc/troubleshooting.md).

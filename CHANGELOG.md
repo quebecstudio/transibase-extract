@@ -32,6 +32,9 @@ et ce projet adhère au [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 - Option de filtrage par année
 - Gestion des erreurs et validation des entrées
 - Scripts compatibles pour traitement par lots
+- Version PHP avec séparation en deux fichiers:
+  - `transibase_converter.php`: Classes et logique de conversion
+  - `transibase_dgeq_convert.php`: Interface en ligne de commande
 
 ### Notes techniques
 - Format CSV conforme au standard RFC 4180

@@ -23,8 +23,10 @@ Plusieurs implémentations sont disponibles pour s'adapter à différents enviro
 | TypeScript | Node.js | `transibase_dgeq_convert_node.ts` |
 | TypeScript | Deno | `transibase_dgeq_convert_deno.ts` |
 | TypeScript | Bun | `transibase_dgeq_convert_bun.ts` |
-| PHP 8.3+ | CLI/Web | `transibase_dgeq_convert.php` |
+| PHP 8.3+ | CLI/Web | `transibase_dgeq_convert.php` & `transibase_converter.php` |
 | Python 3.x | | `transibase_dgeq_convert.py` |
+
+> **Note**: La version PHP est composée de deux fichiers : un pour les classes et la logique de conversion (`transibase_converter.php`), et un pour l'interface en ligne de commande (`transibase_dgeq_convert.php`). Cette structure facilite l'intégration dans des applications web existantes.
 
 ## Utilisation rapide
 
@@ -60,7 +62,7 @@ Le script extrait les informations suivantes:
 
 ## Documentation détaillée
 
-Pour une documentation complète, consultez le dossier [/doc](/doc):
+Pour une documentation complète, consultez le fichier [index](/doc/index.md) dans le dossier `/doc`.
 
 - [Installation](/doc/installation.md) - Instructions d'installation détaillées
 - [Utilisation](/doc/usage.md) - Guide d'utilisation complet
