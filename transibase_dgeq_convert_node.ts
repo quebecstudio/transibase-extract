@@ -1,5 +1,6 @@
+#!/usr/bin/env ts-node
 /**
- * Transibase 1.0 - Extracteur de données JSON vers CSV (Version Node.js JavaScript)
+ * Transibase 1.0 - Extracteur de données JSON vers CSV (Version Node.js TypeScript)
  * 
  * Ce script permet d'extraire des données spécifiques depuis les commandes Craft Commerce
  * exportées en JSON et de les convertir en format CSV.
@@ -32,9 +33,49 @@
  * si ce n'est pas le cas, consultez <https://www.gnu.org/licenses/licenses.fr.html>.
  */
 
-const fs = require('fs');
-const path = require('path');
-const readline = require('readline');
+import * as fs from 'fs';
+import * as path from 'path';
+import * as readline from 'readline';
+
+// Définition des interfaces
+interface Transaction {
+  reference: string;
+  dateCreated: string;
+  [key: string]: any;
+}
+
+interface LineItem {
+  options?: {
+    prenom?: string;
+    nom?: string;
+    dateNaissance?: string;
+    donationAmount?: string;
+    [key: string]: any;
+  };
+  [key: string]: any;
+}
+
+interface Customer {
+  email?: string;
+  [key: string]: any;
+}
+
+interface OrderData {
+  transactions?: Transaction[];
+  customer?: Customer;
+  lineItems?: LineItem[];
+  [key: string]: any;
+}
+
+interface ExtractedData {
+  reference: string;
+  email: string;
+  prenom: string;
+  nom: string;
+  dateNaissance: string;
+  donationAmount: string;
+  transactionDate: string;
+}
 
 // Création d'une interface pour les interactions avec l'utilisateur
 const rl = readline.createInterface({
@@ -43,7 +84,7 @@ const rl = readline.createInterface({
 });
 
 // Fonction pour poser une question et obtenir une réponse
-function question(query) {
+function question(query: string): Promise<string> {
   return new Promise(resolve => {
     rl.question(query, answer => {
       resolve(answer);
@@ -52,13 +93,13 @@ function question(query) {
 }
 
 // Fonction pour extraire les données demandées
-function extractData(jsonData, filterYear = null) {
+function extractData(jsonData: OrderData | OrderData[], filterYear: string | null = null): ExtractedData[] {
   // S'assurer que jsonData est un tableau
-  const dataArray = Array.isArray(jsonData) ? jsonData : [jsonData];
+  const dataArray: OrderData[] = Array.isArray(jsonData) ? jsonData : [jsonData];
   
   return dataArray.map(item => {
     // Obtenir la dernière transaction
-    const lastTransaction = item.transactions && item.transactions.length > 0 
+    const lastTransaction: Transaction = item.transactions && item.transactions.length > 0 
       ? item.transactions[item.transactions.length - 1] 
       : { reference: '', dateCreated: '' };
 
@@ -88,7 +129,7 @@ function extractData(jsonData, filterYear = null) {
       nom: item.lineItems && item.lineItems[0]?.options?.nom || '',
       dateNaissance: item.lineItems && item.lineItems[0]?.options?.dateNaissance || '',
       donationAmount: item.lineItems && item.lineItems[0]?.options?.donationAmount || '',
-      transactionDate: transactionDate
+      transactionDate
     };
   }).filter(item => {
     // Filtrer par année si spécifiée
@@ -101,7 +142,7 @@ function extractData(jsonData, filterYear = null) {
 }
 
 // Fonction pour convertir les données en format CSV
-function convertToCSV(data) {
+function convertToCSV(data: ExtractedData[]): string {
   // En-têtes CSV
   const header = ['reference', 'email', 'prenom', 'nom', 'dateNaissance', 'donationAmount', 'transactionDate'];
   
@@ -109,7 +150,7 @@ function convertToCSV(data) {
   const rows = data.map(item => {
     return header.map(key => {
       // Échapper les guillemets et entourer les valeurs de guillemets
-      const value = item[key]?.toString().replace(/"/g, '""') || '';
+      const value = (item as any)[key]?.toString().replace(/"/g, '""') || '';
       return `"${value}"`;
     }).join(',');
   });
@@ -119,7 +160,7 @@ function convertToCSV(data) {
 }
 
 // Fonction principale
-async function processJsonToCSV(inputFilePath, outputFilePath, filterYear = null) {
+async function processJsonToCSV(inputFilePath: string, outputFilePath: string, filterYear: string | null = null): Promise<void> {
   try {
     // Vérifier si le fichier de sortie existe déjà
     if (fs.existsSync(outputFilePath)) {
@@ -135,7 +176,7 @@ async function processJsonToCSV(inputFilePath, outputFilePath, filterYear = null
     const fileContent = fs.readFileSync(inputFilePath, 'utf8');
     
     // Traiter le contenu JSON
-    let jsonData;
+    let jsonData: OrderData | OrderData[];
     try {
       jsonData = JSON.parse(fileContent);
     } catch (e) {
@@ -174,19 +215,19 @@ async function processJsonToCSV(inputFilePath, outputFilePath, filterYear = null
     }
     
   } catch (error) {
-    console.error('Erreur lors du traitement:', error.message);
+    console.error('Erreur lors du traitement:', error instanceof Error ? error.message : String(error));
   } finally {
     rl.close();
   }
 }
 
 // Fonction principale avec gestion des arguments
-async function main() {
+async function main(): Promise<void> {
   // Traitement des arguments de la ligne de commande
   const args = process.argv.slice(2);
   
   if (args.length < 2) {
-    console.log('Usage: node extract-json-to-csv.js <inputFile> <outputFile> [year]');
+    console.log('Usage: npx ts-node transibase_dgeq_convert.ts <inputFile> <outputFile> [year]');
     console.log('  inputFile: Chemin vers le fichier JSON d\'entrée');
     console.log('  outputFile: Chemin vers le fichier CSV de sortie');
     console.log('  year: (Optionnel) Année pour filtrer les transactions (format: YYYY)');

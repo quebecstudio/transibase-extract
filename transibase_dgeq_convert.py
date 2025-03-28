@@ -7,6 +7,14 @@ Transibase 1.0 - Extracteur de données JSON vers CSV
 Ce script permet d'extraire des données spécifiques depuis les commandes Craft Commerce
 exportées en JSON et de les convertir en format CSV.
 
+Ce script est disponible en plusieurs versions:
+- JavaScript (Node.js): transibase_dgeq_convert.js
+- TypeScript (Node.js): transibase_dgeq_convert_node.ts
+- TypeScript (Deno): transibase_dgeq_convert_deno.ts
+- TypeScript (Bun): transibase_dgeq_convert_bun.ts
+- Python 3: transibase_dgeq_convert.py
+- PHP 8.3+: transibase_dgeq_convert.php
+
 @copyright 2025 Québec Studio
 @license GNU General Public License v3.0 (GPL-3.0)
 @author Québec Studio

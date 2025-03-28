@@ -1,5 +1,6 @@
+#!/usr/bin/env bun
 /**
- * Transibase 1.0 - Extracteur de données JSON vers CSV (Version Node.js JavaScript)
+ * Transibase 1.0 - Extracteur de données JSON vers CSV (Version Bun TypeScript)
  * 
  * Ce script permet d'extraire des données spécifiques depuis les commandes Craft Commerce
  * exportées en JSON et de les convertir en format CSV.
@@ -32,33 +33,71 @@
  * si ce n'est pas le cas, consultez <https://www.gnu.org/licenses/licenses.fr.html>.
  */
 
-const fs = require('fs');
-const path = require('path');
-const readline = require('readline');
+import { readFileSync, writeFileSync, existsSync } from 'fs';
+import { stdin, stdout } from 'process';
+import { argv } from 'process';
 
-// Création d'une interface pour les interactions avec l'utilisateur
-const rl = readline.createInterface({
-  input: process.stdin,
-  output: process.stdout
-});
+// Définition des interfaces pour TypeScript
+interface Transaction {
+  reference: string;
+  dateCreated: string;
+  [key: string]: any;
+}
+
+interface LineItem {
+  options?: {
+    prenom?: string;
+    nom?: string;
+    dateNaissance?: string;
+    donationAmount?: string;
+    [key: string]: any;
+  };
+  [key: string]: any;
+}
+
+interface Customer {
+  email?: string;
+  [key: string]: any;
+}
+
+interface OrderData {
+  transactions?: Transaction[];
+  customer?: Customer;
+  lineItems?: LineItem[];
+  [key: string]: any;
+}
+
+interface ExtractedData {
+  reference: string;
+  email: string;
+  prenom: string;
+  nom: string;
+  dateNaissance: string;
+  donationAmount: string;
+  transactionDate: string;
+}
 
 // Fonction pour poser une question et obtenir une réponse
-function question(query) {
-  return new Promise(resolve => {
-    rl.question(query, answer => {
-      resolve(answer);
-    });
-  });
+async function question(query: string): Promise<string> {
+  const writer = new Bun.ArrayBufferSink();
+  stdout.write(query);
+  const reader = stdin.getReader();
+  
+  // Lecture de la réponse
+  const { value } = await reader.read();
+  reader.releaseLock();
+  
+  return new TextDecoder().decode(value).trim();
 }
 
 // Fonction pour extraire les données demandées
-function extractData(jsonData, filterYear = null) {
+function extractData(jsonData: OrderData | OrderData[], filterYear: string | null = null): ExtractedData[] {
   // S'assurer que jsonData est un tableau
-  const dataArray = Array.isArray(jsonData) ? jsonData : [jsonData];
+  const dataArray: OrderData[] = Array.isArray(jsonData) ? jsonData : [jsonData];
   
   return dataArray.map(item => {
     // Obtenir la dernière transaction
-    const lastTransaction = item.transactions && item.transactions.length > 0 
+    const lastTransaction: Transaction = item.transactions && item.transactions.length > 0 
       ? item.transactions[item.transactions.length - 1] 
       : { reference: '', dateCreated: '' };
 
@@ -88,7 +127,7 @@ function extractData(jsonData, filterYear = null) {
       nom: item.lineItems && item.lineItems[0]?.options?.nom || '',
       dateNaissance: item.lineItems && item.lineItems[0]?.options?.dateNaissance || '',
       donationAmount: item.lineItems && item.lineItems[0]?.options?.donationAmount || '',
-      transactionDate: transactionDate
+      transactionDate
     };
   }).filter(item => {
     // Filtrer par année si spécifiée
@@ -101,7 +140,7 @@ function extractData(jsonData, filterYear = null) {
 }
 
 // Fonction pour convertir les données en format CSV
-function convertToCSV(data) {
+function convertToCSV(data: ExtractedData[]): string {
   // En-têtes CSV
   const header = ['reference', 'email', 'prenom', 'nom', 'dateNaissance', 'donationAmount', 'transactionDate'];
   
@@ -109,7 +148,7 @@ function convertToCSV(data) {
   const rows = data.map(item => {
     return header.map(key => {
       // Échapper les guillemets et entourer les valeurs de guillemets
-      const value = item[key]?.toString().replace(/"/g, '""') || '';
+      const value = (item as any)[key]?.toString().replace(/"/g, '""') || '';
       return `"${value}"`;
     }).join(',');
   });
@@ -119,23 +158,22 @@ function convertToCSV(data) {
 }
 
 // Fonction principale
-async function processJsonToCSV(inputFilePath, outputFilePath, filterYear = null) {
+async function processJsonToCSV(inputFilePath: string, outputFilePath: string, filterYear: string | null = null): Promise<void> {
   try {
     // Vérifier si le fichier de sortie existe déjà
-    if (fs.existsSync(outputFilePath)) {
+    if (existsSync(outputFilePath)) {
       const answer = await question(`Le fichier ${outputFilePath} existe déjà. Voulez-vous l'écraser ? (o/n) `);
       if (answer.toLowerCase() !== 'o') {
         console.log('Opération annulée.');
-        rl.close();
         return;
       }
     }
 
-    // Lire le fichier JSON
-    const fileContent = fs.readFileSync(inputFilePath, 'utf8');
+    // Lire le fichier JSON - Bun supporte les lectures synchrones de Node
+    const fileContent = readFileSync(inputFilePath, 'utf8');
     
     // Traiter le contenu JSON
-    let jsonData;
+    let jsonData: OrderData | OrderData[];
     try {
       jsonData = JSON.parse(fileContent);
     } catch (e) {
@@ -156,15 +194,14 @@ async function processJsonToCSV(inputFilePath, outputFilePath, filterYear = null
       console.log(filterYear 
         ? `Aucune transaction trouvée pour l'année ${filterYear}.` 
         : 'Aucune transaction trouvée.');
-      rl.close();
       return;
     }
     
     // Convertir en CSV
     const csvContent = convertToCSV(extractedData);
     
-    // Écrire le fichier CSV
-    fs.writeFileSync(outputFilePath, csvContent, 'utf8');
+    // Écrire le fichier CSV - Bun supporte les écritures synchrones de Node
+    writeFileSync(outputFilePath, csvContent, 'utf8');
     
     console.log(`Extraction réussie! Fichier CSV créé: ${outputFilePath}`);
     console.log(`Nombre d'entrées traitées: ${extractedData.length}`);
@@ -174,19 +211,17 @@ async function processJsonToCSV(inputFilePath, outputFilePath, filterYear = null
     }
     
   } catch (error) {
-    console.error('Erreur lors du traitement:', error.message);
-  } finally {
-    rl.close();
+    console.error('Erreur lors du traitement:', error instanceof Error ? error.message : String(error));
   }
 }
 
 // Fonction principale avec gestion des arguments
-async function main() {
-  // Traitement des arguments de la ligne de commande
-  const args = process.argv.slice(2);
+async function main(): Promise<void> {
+  // Traitement des arguments de la ligne de commande - Bun a process.argv comme Node
+  const args = argv.slice(2);
   
   if (args.length < 2) {
-    console.log('Usage: node extract-json-to-csv.js <inputFile> <outputFile> [year]');
+    console.log('Usage: bun transibase_dgeq_convert_bun.ts <inputFile> <outputFile> [year]');
     console.log('  inputFile: Chemin vers le fichier JSON d\'entrée');
     console.log('  outputFile: Chemin vers le fichier CSV de sortie');
     console.log('  year: (Optionnel) Année pour filtrer les transactions (format: YYYY)');
@@ -198,7 +233,7 @@ async function main() {
   const filterYear = args[2] || null;
   
   // Vérifier que le fichier d'entrée existe
-  if (!fs.existsSync(inputFilePath)) {
+  if (!existsSync(inputFilePath)) {
     console.error(`Erreur: Le fichier d'entrée ${inputFilePath} n'existe pas.`);
     process.exit(1);
   }
