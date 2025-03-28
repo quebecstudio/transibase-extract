@@ -73,7 +73,7 @@ Pour une documentation complète, consultez le fichier [index](/doc/index.md) da
 - [Traitement par lots](/doc/batch-processing.md) - Traitement de multiples fichiers
 - [Dépannage](/doc/troubleshooting.md) - Solutions aux problèmes courants
 - [Format des fichiers](/doc/file-format.md) - Détails sur les formats d'entrée/sortie
-- Guides spécifiques: [Node.js](/doc/node.md), [Deno](/doc/deno.md), [Bun](/doc/bun.md), [PHP](/doc/php.md), [Python](/doc/python.md)
+- Guides spécifiques: [Node.js](/doc/node.md), [Deno](/doc/deno.md), [Bun](/doc/bun.md), [PHP](/doc/php.md), [Python](/doc/python.md), [Go](/doc/go.md)
 
 ## Licence
 
