@@ -100,8 +100,10 @@ Ce document présente les problèmes courants que vous pourriez rencontrer lors 
 
 ### Python
 
-**Problème**: Erreur de syntaxe ou fonctionnalités non supportées
+**Problème**: Erreur "SyntaxError" ou fonctionnalités non supportées
 
 **Solution**:
-- Vérifiez que vous utilisez Python 3.6 ou supérieur : `python --version` ou `python3 --version`
-- Si nécessaire, utilisez explicitement Python 3 : `python3 transibase_dgeq_convert.py ...`
+- Le script nécessite Python 3.6 ou supérieur, Python 2 n'est pas supporté
+- Vérifiez votre version avec `python --version` ou `python3 --version`
+- Utilisez toujours la commande explicite pour Python 3 : `python3 transibase_dgeq_convert.py ...`
+- Sur certains systèmes où Python 3 est l'installation par défaut, vous pouvez utiliser `python transibase_dgeq_convert.py ...`
