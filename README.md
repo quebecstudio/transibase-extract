@@ -25,6 +25,7 @@ Plusieurs implémentations sont disponibles pour s'adapter à différents enviro
 | TypeScript | Bun | `transibase_dgeq_convert_bun.ts` |
 | PHP 8.3+ | CLI/Web | `transibase_dgeq_convert.php` & `transibase_converter.php` |
 | Python 3.x | | `transibase_dgeq_convert.py` |
+| Go | | `transibase_dgeq_convert.go` |
 
 > **Note**: La version PHP est composée de deux fichiers : un pour les classes et la logique de conversion (`transibase_converter.php`), et un pour l'interface en ligne de commande (`transibase_dgeq_convert.php`). Cette structure facilite l'intégration dans des applications web existantes.
 
@@ -48,6 +49,9 @@ php transibase_dgeq_convert.php input.json output.csv [année]
 
 # Python
 python3 transibase_dgeq_convert.py input.json output.csv [année]
+
+# Go
+go run transibase_dgeq_convert.go input.json output.csv [année]
 ```
 
 ## Données extraites

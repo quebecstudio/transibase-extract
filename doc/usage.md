@@ -50,6 +50,9 @@ php transibase_dgeq_convert.php donations.json rapport.csv
 
 # Python
 python3 transibase_dgeq_convert.py donations.json rapport.csv
+
+# Go
+go run transibase_dgeq_convert.go donations.json rapport.csv
 ```
 
 ## Filtrage par année
@@ -92,6 +95,18 @@ Sur Linux/macOS, après avoir rendu le script exécutable avec `chmod +x`:
 
 ```bash
 ./transibase_dgeq_convert.py export.json rapport.csv
+```
+
+### Exemple 5: Compilation et exécution avec Go
+
+Avec Go, vous pouvez également compiler le script en un exécutable:
+
+```bash
+# Compiler
+go build transibase_dgeq_convert.go
+
+# Exécuter l'exécutable généré
+./transibase_dgeq_convert export.json rapport.csv 2024
 ```
 
 ## Comportement avec un fichier de sortie existant

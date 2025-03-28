@@ -8,6 +8,7 @@ Ce document fournit des instructions détaillées pour installer les différents
 - [Bun](#bun)
 - [PHP 8.3+](#php-83)
 - [Python 3](#python-3)
+- [Go](#go)
 
 ## Node.js
 
@@ -267,6 +268,64 @@ sudo apt install python3 python3-pip
 python3 --version
 ```
 
+## Go
+
+Go est requis pour exécuter la version Go du script.
+
+### Sur Windows
+
+1. **Télécharger l'installateur**
+   - Allez sur le site officiel de Go : https://go.dev/dl/
+   - Téléchargez l'installateur pour Windows
+   
+2. **Installer Go**
+   - Exécutez le fichier .msi téléchargé
+   - Suivez les instructions de l'assistant d'installation
+   - L'installateur ajoute automatiquement Go à votre PATH
+   
+3. **Vérifier l'installation**
+   - Ouvrez l'invite de commande (cmd) ou PowerShell
+   - Tapez la commande suivante :
+   ```
+   go version
+   ```
+
+### Sur macOS
+
+1. **Méthode avec l'installateur**
+   - Allez sur le site officiel de Go : https://go.dev/dl/
+   - Téléchargez la version pour macOS (.pkg)
+   - Exécutez le fichier .pkg téléchargé et suivez les instructions
+   
+2. **Méthode avec Homebrew**
+   ```bash
+   brew install go
+   ```
+   
+3. **Vérifier l'installation**
+   ```bash
+   go version
+   ```
+
+### Sur Linux (Debian/Ubuntu)
+
+```bash
+# Télécharger la dernière version
+wget https://go.dev/dl/go1.22.1.linux-amd64.tar.gz  # Ajustez la version si nécessaire
+
+# Extraire dans /usr/local
+sudo rm -rf /usr/local/go && sudo tar -C /usr/local -xzf go1.22.1.linux-amd64.tar.gz
+
+# Ajouter au PATH (ajoutez ces lignes à votre ~/.profile ou ~/.bashrc)
+export PATH=$PATH:/usr/local/go/bin
+
+# Appliquer les changements
+source ~/.profile  # ou source ~/.bashrc
+
+# Vérifier l'installation
+go version
+```
+
 ## Vérification finale
 
 Après l'installation, vérifiez que les runtimes nécessaires sont bien installés:
@@ -290,4 +349,7 @@ php --version
 
 # Vérifier Python
 python3 --version  # ou python --version sur Windows
+
+# Vérifier Go
+go version
 ```

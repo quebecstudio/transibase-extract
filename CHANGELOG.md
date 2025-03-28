@@ -16,6 +16,7 @@ et ce projet adhère au [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
   - TypeScript pour Bun
   - PHP 8.3+
   - Python 3.x
+  - Go
 - Filtrage des transactions par année
 - Prise en charge des formats de date multiples
 - Tentative de réparation automatique des JSON mal formés
@@ -40,5 +41,6 @@ et ce projet adhère au [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 - Format CSV conforme au standard RFC 4180
 - Détection et conversion automatique des formats de date
 - Gestion unifiée des structures JSON imbriquées
-- Compatible avec les environnements modernes (ES6+, Python 3.6+, PHP 8.3+)
+- Compatible avec les environnements modernes (ES6+, Python 3.6+, PHP 8.3+, Go 1.16+)
 - Fonctionnement similaire et résultats identiques entre toutes les versions
+- Version Go avec possibilité de compilation en exécutable autonome

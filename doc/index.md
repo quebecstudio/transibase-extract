@@ -17,20 +17,22 @@ Bienvenue dans la documentation du projet Transibase, un outil d'extraction de d
 - [Bun](bun.md) - Guide pour la version TypeScript Bun
 - [PHP](php.md) - Guide pour la version PHP 8.3+
 - [Python](python.md) - Guide pour la version Python 3.x
+- [Go](go.md) - Guide pour la version Go
 
 ## Tableau comparatif des versions
 
-| Caractéristique | Node.js (JS) | Node.js (TS) | Deno | Bun | PHP | Python |
-|-----------------|--------------|--------------|------|-----|-----|--------|
-| **Langage** | JavaScript | TypeScript | TypeScript | TypeScript | PHP 8.3+ | Python 3.x |
-| **Performance** | Bonne | Bonne | Meilleure | Excellente | Correcte | Bonne |
-| **Typage** | Non | Oui | Oui | Oui | Oui | Non |
-| **Dépendances externes** | Non | TypeScript, ts-node | Non | Non | Non | Non |
-| **Portabilité** | Très bonne | Très bonne | Très bonne | Moyenne* | Très bonne | Excellente |
-| **Sécurité** | Standard | Standard | Renforcée | Standard | Standard | Standard |
-| **Disponibilité** | À installer | À installer | À installer | À installer | Souvent préinstallé | Souvent préinstallé |
-| **Intégration web** | Possible | Possible | Possible | Possible | Excellente | Possible |
-| **Facilité d'utilisation** | Simple | Moyenne | Simple | Simple | Simple | Très simple |
+| Caractéristique | Node.js (JS) | Node.js (TS) | Deno | Bun | PHP | Python | Go |
+|-----------------|--------------|--------------|------|-----|-----|--------|-----|
+| **Langage** | JavaScript | TypeScript | TypeScript | TypeScript | PHP 8.3+ | Python 3.x | Go |
+| **Performance** | Bonne | Bonne | Meilleure | Excellente | Correcte | Bonne | Excellente |
+| **Typage** | Non | Oui | Oui | Oui | Oui | Non | Oui |
+| **Dépendances externes** | Non | TypeScript, ts-node | Non | Non | Non | Non | Non |
+| **Portabilité** | Très bonne | Très bonne | Très bonne | Moyenne* | Très bonne | Excellente | Excellente |
+| **Sécurité** | Standard | Standard | Renforcée | Standard | Standard | Standard | Renforcée |
+| **Disponibilité** | À installer | À installer | À installer | À installer | Souvent préinstallé | Souvent préinstallé | À installer |
+| **Intégration web** | Possible | Possible | Possible | Possible | Excellente | Possible | Excellente |
+| **Facilité d'utilisation** | Simple | Moyenne | Simple | Simple | Simple | Très simple | Moyenne |
+| **Déploiement** | Interprété | Interprété | Interprété | Interprété | Interprété | Interprété | Compilé |
 
 \* Bun a une compatibilité limitée avec Windows (via WSL uniquement)
 
@@ -67,6 +69,12 @@ Pour vous aider à choisir la version qui convient le mieux à votre cas d'utili
 - Vous êtes plus à l'aise avec Python
 - Python est déjà installé sur votre système
 - Vous préférez une solution qui fonctionne partout sans installation
+
+### Choisissez Go si:
+- Vous recherchez des performances élevées
+- Vous préférez une application compilée avec un déploiement simple
+- Vous appréciez la portabilité entre différentes plateformes
+- Vous valorisez la sécurité mémoire et le typage fort
 
 ## Contribuer à la documentation
 

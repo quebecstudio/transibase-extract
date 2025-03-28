@@ -107,3 +107,12 @@ Ce document présente les problèmes courants que vous pourriez rencontrer lors 
 - Vérifiez votre version avec `python --version` ou `python3 --version`
 - Utilisez toujours la commande explicite pour Python 3 : `python3 transibase_dgeq_convert.py ...`
 - Sur certains systèmes où Python 3 est l'installation par défaut, vous pouvez utiliser `python transibase_dgeq_convert.py ...`
+
+### Go
+
+**Problème**: Erreur de compilation ou "command not found"
+
+**Solution**:
+- Vérifiez que Go est bien installé : `go version`
+- Assurez-vous d'avoir Go 1.16 ou supérieur pour les fonctionnalités utilisées
+- Si vous compilez le script : `go build transibase_dgeq_convert.go`

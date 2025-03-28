@@ -13,6 +13,7 @@
  * - TypeScript (Bun): transibase_dgeq_convert_bun.ts
  * - Python 3: transibase_dgeq_convert.py
  * - PHP 8.3+: transibase_dgeq_convert.php
+ * - Go: transibase_dgeq_convert.go
  * 
  * @copyright 2025 Québec Studio
  * @license GNU General Public License v3.0 (GPL-3.0)

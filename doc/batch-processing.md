@@ -68,6 +68,15 @@ for file in *.json; do
 done
 ```
 
+#### Avec Go
+
+```bash
+for file in *.json; do
+  output="${file%.json}.csv"
+  go run transibase_dgeq_convert.go "$file" "$output"
+done
+```
+
 ### Traiter avec un filtre par année
 
 Pour traiter tous les fichiers JSON mais ne garder que les transactions d'une année spécifique:
@@ -88,6 +97,21 @@ for file in ./donnees/*.json; do
   filename=$(basename "$file")
   output="./rapports/${filename%.json}.csv"
   python3 transibase_dgeq_convert.py "$file" "$output"
+done
+```
+
+### Compiler et exécuter Go en lot
+
+Si vous préférez utiliser la version compilée de Go pour de meilleures performances:
+
+```bash
+# Compiler d'abord
+go build transibase_dgeq_convert.go
+
+# Traiter les fichiers
+for file in *.json; do
+  output="${file%.json}.csv"
+  ./transibase_dgeq_convert "$file" "$output"
 done
 ```
 
@@ -140,6 +164,15 @@ foreach ($file in Get-ChildItem -Filter "*.json") {
 }
 ```
 
+#### Avec Go
+
+```powershell
+foreach ($file in Get-ChildItem -Filter "*.json") {
+  $output = $file.BaseName + ".csv"
+  go run transibase_dgeq_convert.go $file.Name $output
+}
+```
+
 ### Traiter avec un filtre par année
 
 ```powershell
@@ -157,6 +190,19 @@ foreach ($file in Get-ChildItem -Filter "*.json") {
 foreach ($file in Get-ChildItem -Path "C:\Données\JSON" -Filter "*.json") {
   $output = "C:\Rapports\" + $file.BaseName + ".csv"
   php transibase_dgeq_convert.php $file.FullName $output
+}
+```
+
+### Compiler et utiliser Go en PowerShell
+
+```powershell
+# Compiler d'abord
+go build transibase_dgeq_convert.go
+
+# Traiter les fichiers avec l'exécutable
+foreach ($file in Get-ChildItem -Filter "*.json") {
+  $output = $file.BaseName + ".csv"
+  .\transibase_dgeq_convert.exe $file.Name $output
 }
 ```
 
@@ -179,6 +225,8 @@ echo Traitement terminé.
 pause
 ```
 
+Vous pouvez remplacer `node transibase_dgeq_convert.js` par la commande appropriée pour votre environnement d'exécution préféré.
+
 ## Automatisation et planification
 
 ### Sous Linux/macOS (Cron)
@@ -196,72 +244,3 @@ OUTPUT_DIR="/home/user/donations/csv"
 LOG_FILE="/home/user/donations/process.log"
 
 # Créer le dossier de sortie si nécessaire
-mkdir -p "$OUTPUT_DIR"
-
-# Journaliser le début
-echo "$(date): Début du traitement" >> "$LOG_FILE"
-
-# Traiter tous les fichiers JSON
-for file in "$INPUT_DIR"/*.json; do
-  if [ -f "$file" ]; then
-    filename=$(basename "$file")
-    output="$OUTPUT_DIR/${filename%.json}.csv"
-    
-    echo "$(date): Traitement de $filename" >> "$LOG_FILE"
-    php transibase_dgeq_convert.php "$file" "$output" 2>> "$LOG_FILE"
-  fi
-done
-
-echo "$(date): Fin du traitement" >> "$LOG_FILE"
-```
-
-2. Rendez le script exécutable:
-```bash
-chmod +x process_donations.sh
-```
-
-3. Configurez une tâche cron pour l'exécuter quotidiennement à 2h du matin:
-```bash
-crontab -e
-```
-
-4. Ajoutez la ligne suivante:
-```
-0 2 * * * /home/user/process_donations.sh
-```
-
-### Sous Windows (Planificateur de tâches)
-
-1. Créez un script batch `process_donations.bat`:
-
-```batch
-@echo off
-setlocal
-
-REM Définir les chemins
-set INPUT_DIR=C:\Donations\JSON
-set OUTPUT_DIR=C:\Donations\CSV
-set LOG_FILE=C:\Donations\process.log
-
-REM Créer le dossier de sortie si nécessaire
-if not exist "%OUTPUT_DIR%" mkdir "%OUTPUT_DIR%"
-
-REM Journaliser le début
-echo %date% %time%: Début du traitement >> "%LOG_FILE%"
-
-REM Traiter tous les fichiers JSON
-for %%f in ("%INPUT_DIR%\*.json") do (
-  echo %date% %time%: Traitement de %%~nxf >> "%LOG_FILE%"
-  node transibase_dgeq_convert.js "%%f" "%OUTPUT_DIR%\%%~nf.csv" 2>> "%LOG_FILE%"
-)
-
-echo %date% %time%: Fin du traitement >> "%LOG_FILE%"
-```
-
-2. Utilisez le Planificateur de tâches Windows:
-   - Ouvrez "Planificateur de tâches" dans le Panneau de configuration
-   - Créez une nouvelle tâche de base
-   - Configurez-la pour qu'elle s'exécute quotidiennement
-   - Définissez l'action pour démarrer un programme
-   - Parcourez jusqu'à votre script batch
-   - Terminez la configuration de la tâche
