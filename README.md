@@ -3,11 +3,11 @@
 Ce script fait partie du logiciel Transibase 1.0 développé par Québec Studio.
 Il permet d'extraire des données spécifiques à partir de fichiers JSON de commandes Craft Commerce et de les exporter dans un format CSV.
 
-## Soutien
+## Soutien à l'Ukraine et appel à la solidarité
 
 Québec Studio soutient l'Ukraine et son peuple dans sa quête de paix, de liberté et de souveraineté. 🇺🇦
 
-Si vous ne soutenez pas cette cause, nous vous prions de ne pas utiliser nos logiciels, car ils s'adressent aux personnes qui souhaitent être du bon côté de l'histoire.
+Si vous ne soutenez pas le peuple ukrainien dans cette guerre injuste qu'il n'a jamais souhaitée, nous vous demandons de ne pas utiliser nos logiciels, car ils sont destinés à ceux qui souhaitent être du bon côté de l'histoire.
 
 ## Objectif
 
